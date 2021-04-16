@@ -28,7 +28,7 @@ public class StoryRestController {
             @RequestParam(required = false) String content,
             @RequestParam(required = false) LocalDateTime publicationDate
     ) {
-        storyService.updateStory(id, title, summary, content, publicationDate);
+        storyService.updateStory(id, title, summary);
     }
 
     @DeleteMapping(path = "/{storyId}")
