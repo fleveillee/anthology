@@ -1,14 +1,20 @@
 {{> common/header }}
 
-Stories
-
-<div class="starter-template">
-    {{#stories}}
-        <h1>{{title}}</h1>
-        <h3>{{publicationDate}}</h3>
-        <h3>author</h3>
-        <p>{{summary}}</p>
-    {{/stories}}
+<div class="container-fluid" style="min-height: fit-content;">
+    <h2>Stories</h2>
+    <p class="subtitle">
+        Hot & Steamy Stories 4 U!
+    </p>
+    <div class="row g-2 g-lg-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6">
+        {{#stories}}
+            <div class="col m-3 p-2 bg-light border">
+                <p class="h-4"><a href="/stories/{{slug}}">{{title}}</a></p>
+                <p class="h-6">by author</p>
+                <div class="content">{{summary}}</div>
+                <time datetime="2020-10-10">2020-10-10</time>
+            </div>
+        {{/stories}}
+    </div>
 </div>
 
 {{> common/footer }}
