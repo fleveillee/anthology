@@ -7,15 +7,16 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+
 public abstract class BaseEntity {
     @Id
-    @GeneratedValue
-    protected UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected int id;
 
+    @Column(unique = true)
     protected String slug;
 
     @CreatedDate
@@ -23,16 +24,17 @@ public abstract class BaseEntity {
     @LastModifiedDate
     protected LocalDateTime lastModifiedDate;
 
+
     protected LocalDateTime deletedDate;
 
     @Version
     protected Integer version;
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 
