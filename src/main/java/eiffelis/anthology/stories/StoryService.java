@@ -3,11 +3,11 @@ package eiffelis.anthology.stories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.naming.OperationNotSupportedException;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -28,14 +28,14 @@ public class StoryService {
         storyRepository.save(story);
     }
 
-    public void archiveStory(UUID id) {
+    public void archiveStory(UUID id) throws OperationNotSupportedException {
         boolean exists = storyRepository.existsById(id);
         if (!exists) {
             throw new NoSuchElementException("No Story Found With ID " + id);
         } else {
             Story story = storyRepository.getOne(id);
             if (story.getDeletedDate() != null) {
-                throw new IllegalStateException("Story With ID " + id + " is already Archived");
+                throw new OperationNotSupportedException("Story With ID " + id + " is already in thrash can.");
             }
             story.setDeletedDate(LocalDateTime.now());
             storyRepository.save(story);
@@ -46,14 +46,10 @@ public class StoryService {
     public void updateStory(UUID id, String title, String summary) {
         Story story = storyRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Story with ID " + id + " could not be found."));
 
-        if (title != null && title.length() > 0 && !Objects.equals(story.getTitle(), title)) {
-            story.setTitle(title);
-        }
+        story.setTitle(title);
+        story.setSummary(summary);
 
-        if (summary != null && summary.length() > 0 && !Objects.equals(story.getSummary(), summary)) {
-            story.setSummary(summary);
-        }
-
+        storyRepository.save(story);
     }
 
     public Story getStoryBySlug(String slug) {
@@ -61,7 +57,7 @@ public class StoryService {
         if (!exists) {
             throw new NoSuchElementException("No Story Found For Slug \"" + slug + "\"");
         }
-        return storyRepository.findStoryBySlug(slug).orElseThrow(() -> new NoSuchElementException("No Story Found For Slug \"" + slug + "\""));
+        return storyRepository.findBySlug(slug).orElseThrow(() -> new NoSuchElementException("No Story Found For Slug \"" + slug + "\""));
     }
 
     public Story getStoryByTitle(String title) {
@@ -69,7 +65,7 @@ public class StoryService {
         if (!exists) {
             throw new NoSuchElementException("NoStory Found With Title \"" + title + "\"");
         }
-        return storyRepository.findStoryByTitle(title).orElseThrow(() -> new NoSuchElementException("NoStory Found With Title \"" + title + "\""));
+        return storyRepository.findByTitle(title).orElseThrow(() -> new NoSuchElementException("NoStory Found With Title \"" + title + "\""));
     }
 
 }

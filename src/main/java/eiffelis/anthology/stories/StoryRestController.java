@@ -3,6 +3,7 @@ package eiffelis.anthology.stories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.OperationNotSupportedException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -33,7 +34,11 @@ public class StoryRestController {
 
     @DeleteMapping(path = "/{storyId}")
     public void deleteStory(@PathVariable("storyId") UUID id) {
-        storyService.archiveStory(id);
+        try {
+            storyService.archiveStory(id);
+        } catch (OperationNotSupportedException exception) {
+            // TODO handle exception
+        }
     }
 
 }

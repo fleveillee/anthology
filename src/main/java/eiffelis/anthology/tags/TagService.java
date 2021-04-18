@@ -22,7 +22,7 @@ public class TagService {
             throw new NoSuchElementException("No Tag found named \"" + name + "\"");
         }
 
-        return tagRepository.findTagByName(name).orElseThrow(() -> new NoSuchElementException("No Tag found named \"" + name + "\""));
+        return tagRepository.findByName(name).orElseThrow(() -> new NoSuchElementException("No Tag found named \"" + name + "\""));
 
     }
 

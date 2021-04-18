@@ -72,6 +72,6 @@ public class ChapterService {
         if (!exists) {
             throw new NoSuchElementException("No Chapter Found With Slug " + slug);
         }
-        return chapterRepository.findChapterBySlug(slug).orElseThrow(() -> new NoSuchElementException("Chapter with Slug " + slug + " could not be found."));
+        return chapterRepository.findBySlug(slug).orElseThrow(() -> new NoSuchElementException("Chapter with Slug " + slug + " could not be found."));
     }
 }

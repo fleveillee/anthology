@@ -4,12 +4,16 @@ import eiffelis.anthology.BaseTextEntity;
 import eiffelis.anthology.authors.Author;
 import eiffelis.anthology.chapters.Chapter;
 import eiffelis.anthology.tags.Tag;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@SQLDelete(sql = "UPDATE story SET deleted_date = NOW() WHERE id = ?")
+@Where(clause = "deleted_date IS NULL OR deleted_date > NOW()")
 public class Story extends BaseTextEntity {
 
     @Transient
@@ -17,9 +21,9 @@ public class Story extends BaseTextEntity {
     @Transient
     private final Set<Tag> tags = new HashSet<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "story", fetch = FetchType.EAGER)
     @OrderBy("number")
-    private Set<Chapter> chapters = new HashSet<>();
+    private Set<Chapter> chapters;
 
     public Story() {
     }
