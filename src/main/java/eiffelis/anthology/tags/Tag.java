@@ -31,6 +31,7 @@ public class Tag extends BaseEntity {
 
     public void setName(String name) {
         this.name = name;
+        this.setSlug(this.getName());
     }
 
     public List<Chapter> getChapters() {
