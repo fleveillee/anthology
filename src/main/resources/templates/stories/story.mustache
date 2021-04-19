@@ -2,10 +2,37 @@
 
 <div class="container-fluid" style="min-height: fit-content;">
     <h2>{{story.title}}</h2>
-    <p class="subtitle">
-        by Author
-    </p>
+    <h3 class="authors-enum h4">
+        {{#story.authors}}<span><a href="/authors/{{slug}}">{{name}}</a></span>{{/story.authors}}
+        {{^story.authors}}Unknown Author{{/story.authors}}
+    </h3>
+    <h3 class="tags-enum h4">
+        {{#story.tags}}<span><a href="/tags/{{slug}}">{{name}}</a></span>{{/story.tags}}
+        {{^story.tags}}No Tags{{/story.tags}}</h3>
     <div>{{story.summary}}</div>
+
+    {{#story.chapters}}
+        <div>
+            <ul>
+                <li><a href="#chapter-{{number}}">Chapter {{number}}: {{title}}</a></li>
+            </ul>
+        </div>
+    {{/story.chapters}}
+
+
+    {{#story.chapters}}
+        <section style="margin:50px;">
+            <h1 class="h4" id="chapter-{{number}}">Chapter {{number}}: {{title}}</h1>
+            <h2 class="csv-enum h5">By {{#authors}}<span>{{name}}</span> {{/authors}}</h2>
+            <h3 class="csv-enum h4">Tags: {{#tags}}<span><a href="/tags/{{slug}}">{{name}}</a></span>{{/tags}}</h3>
+            <div>{{content}}
+            </div>
+        </section>
+    {{/story.chapters}}
+
+    {{^story.chapters}}
+        <p>No Chapters yet</p>
+    {{/story.chapters}}
 </div>
 
 {{> common/footer }}

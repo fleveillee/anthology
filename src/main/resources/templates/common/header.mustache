@@ -15,6 +15,11 @@
             height: 100%;
         }
 
+        header {
+            padding: 15px;
+            background-color: royalblue;
+        }
+
         body {
             display: flex;
             flex-direction: column;
@@ -22,11 +27,29 @@
 
         .content {
             flex: 1 0 auto;
+            padding: 50px;
         }
 
         .footer {
             flex-shrink: 0;
         }
+
+        .authors-enum span:first-of-type::before {
+            content: "By "
+        }
+
+        .authors-enum span:not(:last-of-type)::after {
+            content: " & "
+        }
+
+        .tags-enum span:first-of-type::before {
+            content: "Tags "
+        }
+
+        .tags-enum span:not(:last-of-type)::after {
+            content: ", "
+        }
+
     </style>
 </head>
 <body>
