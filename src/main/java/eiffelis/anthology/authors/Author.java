@@ -33,6 +33,7 @@ public class Author extends BaseEntity {
 
     public void setName(String name) {
         this.name = name;
+        this.setSlug(this.getName());
     }
 
     public Set<Chapter> getStories() {
