@@ -22,7 +22,7 @@ public class Tag extends BaseEntity {
     }
 
     public Tag(String name) {
-        this.name = name;
+        setName(name);
     }
 
     public String getName() {

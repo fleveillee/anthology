@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Order(value = 3)
@@ -32,6 +33,8 @@ public class StoryConfiguration implements CommandLineRunner {
                 "The sheep are MADD; The Return",
                 "This is the story of mad sheep flying around flying around"
         );
+        story3.setDeletedDate(LocalDateTime.of(2020, 3, 2, 1, 1));
+
         Story story4 = new Story(
                 "The flying sheep are MADD dosed",
                 "This is the story of mad sheep flying around flying around flying around"

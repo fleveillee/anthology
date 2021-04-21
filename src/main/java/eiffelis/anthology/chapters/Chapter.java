@@ -27,9 +27,11 @@ public class Chapter extends BaseTextEntity {
     private LocalDateTime publicationDate;
 
     @ManyToMany
+    @OrderBy("name")
     private Set<Author> authors;
 
     @ManyToMany
+    @OrderBy("name")
     private Set<Tag> tags;
 
 
