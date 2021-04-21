@@ -21,7 +21,7 @@ public class StoryService {
     }
 
     public List<Story> getStories() {
-        return storyRepository.findAll();
+        return storyRepository.findAllWithChapters();
     }
 
     public void addStory(Story story) {

@@ -1,9 +1,11 @@
 package eiffelis.anthology.stories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -16,4 +18,8 @@ public interface StoryRepository extends JpaRepository<Story, UUID> {
     Optional<Story> findByTitle(@Param("title") String title);
 
     Optional<Story> findBySlug(@Param("slug") String slug);
+
+
+    @Query("SELECT s FROM Story s INNER JOIN s.chapters c GROUP BY s.id")
+    List<Story> findAllWithChapters();
 }
