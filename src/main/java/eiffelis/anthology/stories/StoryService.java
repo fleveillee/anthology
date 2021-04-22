@@ -12,7 +12,6 @@ import java.util.UUID;
 
 @Service
 public class StoryService {
-
     private final StoryRepository storyRepository;
 
     @Autowired
@@ -20,15 +19,15 @@ public class StoryService {
         this.storyRepository = storyRepository;
     }
 
-    public List<Story> getStories() {
+    public final List<Story> getStories() {
         return storyRepository.findAllWithChapters();
     }
 
-    public void addStory(Story story) {
+    public final void addStory(Story story) {
         storyRepository.save(story);
     }
 
-    public void archiveStory(UUID id) throws OperationNotSupportedException {
+    public final void archiveStory(UUID id) throws OperationNotSupportedException {
         boolean exists = storyRepository.existsById(id);
         if (!exists) {
             throw new NoSuchElementException("No Story Found With ID " + id);
@@ -44,7 +43,8 @@ public class StoryService {
 
     @Transactional
     public void updateStory(UUID id, String title, String summary) {
-        Story story = storyRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Story with ID " + id + " could not be found."));
+        Story story = storyRepository.findById(id)
+                                     .orElseThrow(() -> new NoSuchElementException("Story with ID " + id + " could not be found."));
 
         story.setTitle(title);
         story.setSummary(summary);
@@ -52,20 +52,21 @@ public class StoryService {
         storyRepository.save(story);
     }
 
-    public Story getStoryBySlug(String slug) {
+    public final Story getStoryBySlug(String slug) {
         boolean exists = storyRepository.existsBySlug(slug);
         if (!exists) {
             throw new NoSuchElementException("No Story Found For Slug \"" + slug + "\"");
         }
-        return storyRepository.findBySlug(slug).orElseThrow(() -> new NoSuchElementException("No Story Found For Slug \"" + slug + "\""));
+        return storyRepository.findBySlug(slug)
+                              .orElseThrow(() -> new NoSuchElementException("No Story Found For Slug \"" + slug + "\""));
     }
 
-    public Story getStoryByTitle(String title) {
+    public final Story getStoryByTitle(String title) {
         boolean exists = storyRepository.existsByTitle(title);
         if (!exists) {
             throw new NoSuchElementException("NoStory Found With Title \"" + title + "\"");
         }
-        return storyRepository.findByTitle(title).orElseThrow(() -> new NoSuchElementException("NoStory Found With Title \"" + title + "\""));
+        return storyRepository.findByTitle(title)
+                              .orElseThrow(() -> new NoSuchElementException("NoStory Found With Title \"" + title + "\""));
     }
-
 }
