@@ -7,26 +7,27 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 @Repository
-public interface StoryRepository extends JpaRepository<Story, UUID> {
+public interface StoryRepository extends JpaRepository<Story, Long> {
     Story findByTitle(@Param("title") String title);
 
     Story findBySlug(@Param("slug") String slug);
 
     @Query("SELECT s FROM Story s INNER JOIN s.chapters c  INNER JOIN c.authors a WHERE a.id = :authorId GROUP BY s.id")
-    Set<Story> findByAuthor(int authorId);
+    Set<Story> findByAuthor(Long authorId);
 
     @Query("SELECT s FROM Story s INNER JOIN s.chapters c  INNER JOIN c.tags t WHERE t.id = :tagId GROUP BY s.id")
-    Set<Story> findByTags(int tagId);
+    Set<Story> findByTags(Long tagId);
 
     @Query("SELECT s FROM Story s INNER JOIN s.chapters c GROUP BY s.id")
     List<Story> findAllWithChapters();
 
     @Query("SELECT COUNT(DISTINCT s) FROM Story s INNER JOIN s.chapters c  INNER JOIN c.authors a WHERE a.id = :authorId")
-    int countByAuthors(int authorId);
+    int countByAuthors(Long authorId);
 
     @Query("SELECT COUNT(DISTINCT s) FROM Story s INNER JOIN s.chapters c  INNER JOIN c.tags t WHERE t.id = :tagId")
-    int countByTags(int tagId);
+    int countByTags(Long tagId);
+
+    List<Story> findByTitleStartsWithIgnoreCase(String title);
 }

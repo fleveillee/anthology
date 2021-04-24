@@ -5,10 +5,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-import java.util.UUID;
+
 
 @Repository
-public interface ChapterRepository extends JpaRepository<eiffelis.anthology.chapters.Chapter, UUID> {
+public interface ChapterRepository extends JpaRepository<eiffelis.anthology.chapters.Chapter, Long> {
     Optional<Chapter> findByTitle(@Param("title") String title);
 
     Optional<Chapter> findBySlug(@Param("slug") String slug);

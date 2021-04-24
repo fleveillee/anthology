@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.UUID;
 
 @Service
 public class StoryService {
@@ -28,7 +27,7 @@ public class StoryService {
         storyRepository.save(story);
     }
 
-    public void archiveStory(UUID id) throws OperationNotSupportedException {
+    public void archiveStory(Long id) throws OperationNotSupportedException {
         boolean exists = storyRepository.existsById(id);
         if (!exists) {
             throw new NoSuchElementException("No Story Found With ID " + id);
@@ -43,7 +42,7 @@ public class StoryService {
     }
 
     @Transactional
-    public void updateStory(UUID id, String title, String summary) {
+    public void updateStory(Long id, String title, String summary) {
         Story story = storyRepository.findById(id)
                                      .orElseThrow(() -> new NoSuchElementException("Story with ID " + id + " could not be found."));
 

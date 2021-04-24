@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.UUID;
+
 
 @Service
 public class ChapterService {
@@ -29,7 +29,7 @@ public class ChapterService {
         chapterRepository.save(chapter);
     }
 
-    public void archiveChapter(UUID id) {
+    public void archiveChapter(Long id) {
         boolean exists = chapterRepository.existsById(id);
         if (!exists) {
             throw new NoSuchElementException("No Chapter Found With ID " + id);
@@ -44,7 +44,7 @@ public class ChapterService {
     }
 
     @Transactional
-    public void updateChapter(UUID id, String title, String summary, String content, LocalDateTime publicationDate) {
+    public void updateChapter(Long id, String title, String summary, String content, LocalDateTime publicationDate) {
         //region Description
         Chapter chapter = chapterRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Chapter with ID " + id + " could not be found."));
         //endregion
