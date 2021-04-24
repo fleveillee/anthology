@@ -1,7 +1,8 @@
-package eiffelis.anthology.authors;
+package eiffelis.anthology.tags;
 
 import eiffelis.anthology.stories.Story;
 import eiffelis.anthology.stories.StoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,31 +13,32 @@ import java.util.List;
 import java.util.Set;
 
 @Controller
-@RequestMapping("/authors")
-public class AuthorController {
+@RequestMapping("/tags")
+public class TagController {
 
-    private final AuthorService authorService;
     private final StoryService storyService;
+    private final TagService tagService;
 
-    public AuthorController(AuthorService authorService, StoryService storyService) {
-        this.authorService = authorService;
+    @Autowired
+    public TagController(StoryService storyService, TagService tagService) {
         this.storyService = storyService;
+        this.tagService = tagService;
     }
 
     @GetMapping
     public String list(Model model) {
-        List<Author> authors = authorService.findAll();
-        model.addAttribute("authors", authors);
-        return "authors/list";
+        List<Tag> tags = tagService.findAll();
+        model.addAttribute("tags", tags);
+        return "tags/list";
     }
 
     @GetMapping("/{slug}")
     public String view(@PathVariable String slug, Model model) {
-        Author author = authorService.findBySlug(slug);
-        Set<Story> stories = storyService.findByAuthor(author);
-        model.addAttribute("author", author);
-
+        Tag tag = tagService.findOneBySlug(slug);
+        Set<Story> stories = storyService.findByTag(tag);
+        model.addAttribute("tag", tag);
         model.addAttribute("stories", stories);
-        return "authors/view";
+
+        return "tags/view";
     }
 }

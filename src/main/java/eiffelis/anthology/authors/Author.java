@@ -5,20 +5,26 @@ import eiffelis.anthology.chapters.Chapter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 import java.util.Set;
 
 @Entity
 @SQLDelete(sql = "UPDATE author SET deleted_date = NOW() WHERE id = ?")
 @Where(clause = "deleted_date IS NULL OR deleted_date > NOW()")
 public class Author extends BaseEntity {
-    @Basic(optional = false)
+
+    @Column(length = 50, nullable = false, unique = true)
     private String name;
 
     @ManyToMany(mappedBy = "authors")
-    private Set<Chapter> stories;
+    private Set<Chapter> chapters;
+
+    @Transient
+    private int storiesCount;
+
 
     public Author() {
     }
@@ -36,11 +42,19 @@ public class Author extends BaseEntity {
         this.setSlug(this.getName());
     }
 
-    public Set<Chapter> getStories() {
-        return stories;
+    public Set<Chapter> getChapters() {
+        return chapters;
     }
 
-    public void setStories(Set<Chapter> stories) {
-        this.stories = stories;
+    public void setChapters(Set<Chapter> stories) {
+        this.chapters = stories;
+    }
+
+    public int getStoriesCount() {
+        return storiesCount;
+    }
+
+    public void setStoriesCount(int storiesCount) {
+        this.storiesCount = storiesCount;
     }
 }

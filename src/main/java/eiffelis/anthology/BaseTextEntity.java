@@ -1,10 +1,15 @@
 package eiffelis.anthology;
 
+import javax.persistence.Column;
+import javax.persistence.Lob;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 abstract public class BaseTextEntity extends BaseEntity {
+    @Column(nullable = false, unique = true)
     protected String title;
+
+    @Lob
     protected String summary;
 
     public String getTitle() {

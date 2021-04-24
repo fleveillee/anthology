@@ -1,6 +1,7 @@
 package eiffelis.anthology.stories;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import eiffelis.anthology.authors.Author;
+import eiffelis.anthology.tags.Tag;
 import org.springframework.stereotype.Service;
 
 import javax.naming.OperationNotSupportedException;
@@ -8,26 +9,26 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
 public class StoryService {
     private final StoryRepository storyRepository;
 
-    @Autowired
     public StoryService(StoryRepository storyRepository) {
         this.storyRepository = storyRepository;
     }
 
-    public final List<Story> getStories() {
+    public List<Story> getStories() {
         return storyRepository.findAllWithChapters();
     }
 
-    public final void addStory(Story story) {
+    public void addStory(Story story) {
         storyRepository.save(story);
     }
 
-    public final void archiveStory(UUID id) throws OperationNotSupportedException {
+    public void archiveStory(UUID id) throws OperationNotSupportedException {
         boolean exists = storyRepository.existsById(id);
         if (!exists) {
             throw new NoSuchElementException("No Story Found With ID " + id);
@@ -52,21 +53,20 @@ public class StoryService {
         storyRepository.save(story);
     }
 
-    public final Story getStoryBySlug(String slug) {
-        boolean exists = storyRepository.existsBySlug(slug);
-        if (!exists) {
-            throw new NoSuchElementException("No Story Found For Slug \"" + slug + "\"");
-        }
-        return storyRepository.findBySlug(slug)
-                              .orElseThrow(() -> new NoSuchElementException("No Story Found For Slug \"" + slug + "\""));
+    public Set<Story> findByAuthor(Author author) {
+        return this.storyRepository.findByAuthor(author.getId());
     }
 
-    public final Story getStoryByTitle(String title) {
-        boolean exists = storyRepository.existsByTitle(title);
-        if (!exists) {
-            throw new NoSuchElementException("NoStory Found With Title \"" + title + "\"");
-        }
-        return storyRepository.findByTitle(title)
-                              .orElseThrow(() -> new NoSuchElementException("NoStory Found With Title \"" + title + "\""));
+    public Set<Story> findByTag(Tag tag) {
+        return this.storyRepository.findByTags(tag.getId());
+    }
+
+    public Story getStoryBySlug(String slug) {
+        return storyRepository.findBySlug(slug);
+    }
+
+
+    public Story getStoryByTitle(String title) {
+        return storyRepository.findByTitle(title);
     }
 }

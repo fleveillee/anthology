@@ -1,0 +1,10 @@
+{{> common/header }}
+
+<h1>Authors</h1>
+<ul>
+    {{#authors}}
+        <li><a href="/authors/{{slug}}">{{name}} ({{storiesCount}})</a></li>
+    {{/authors}}
+</ul>
+
+{{> common/footer }}

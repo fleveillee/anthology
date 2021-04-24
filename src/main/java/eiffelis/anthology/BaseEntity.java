@@ -10,20 +10,18 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-
 public abstract class BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     protected int id;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     protected String slug;
 
     @CreatedDate
     protected LocalDateTime createdDate;
     @LastModifiedDate
     protected LocalDateTime lastModifiedDate;
-
 
     protected LocalDateTime deletedDate;
 

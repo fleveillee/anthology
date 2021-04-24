@@ -25,6 +25,7 @@
             flex-direction: column;
         }
 
+
         .content {
             flex: 1 0 auto;
             padding: 50px;
@@ -42,9 +43,9 @@
             content: " & "
         }
 
-        .tags-enum span:first-of-type::before {
-            content: "Tags "
-        }
+        /*.tags-enum span:first-of-type::before {*/
+        /*    content: "Tags: "*/
+        /*}*/
 
         .tags-enum span:not(:last-of-type)::after {
             content: ", "
@@ -58,4 +59,12 @@
         <h1>Anthology</h1>
     </div>
 </header>
+<nav>
+    <ul class="nav">
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/stories">Stories</a></li>
+        <li class="nav-item"><a class="nav-link" href="/authors">Authors</a></li>
+        <li class="nav-item"><a class="nav-link" href="/tags">Tags</a></li>
+    </ul>
+</nav>
 <section class="content">

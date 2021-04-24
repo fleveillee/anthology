@@ -1,0 +1,10 @@
+{{> common/header }}
+
+<h1>Tags</h1>
+<ul>
+    {{#tags}}
+    <li><a href="/tags/{{slug}}">{{name}} ({{storiesCount}})</a>
+    {{/tags}}
+</ul>
+
+{{> common/footer }}
