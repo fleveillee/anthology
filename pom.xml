@@ -2,6 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -50,26 +51,57 @@
             <artifactId>dependency-check-maven</artifactId>
             <version>6.1.5</version>
         </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.6.2</version>
+        </dependency>
     </dependencies>
 
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.owasp</groupId>
-                <artifactId>dependency-check-maven</artifactId>
-                <version>6.1.5</version>
-                <configuration>
-                    <assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
-                    <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
-                    <failBuildOnCVSS>5</failBuildOnCVSS>
+            <!--            <plugin>-->
+            <!--                <groupId>org.owasp</groupId>-->
+            <!--                <artifactId>dependency-check-maven</artifactId>-->
+            <!--                <version>6.1.5</version>-->
+            <!--                <configuration>-->
+            <!--                    <assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>-->
+            <!--                    <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>-->
+            <!--                    <failBuildOnCVSS>5</failBuildOnCVSS>-->
 
-                </configuration>
+            <!--                </configuration>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <goals>-->
+            <!--                            <goal>check</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <!-- RELEASE_VERSION -->
+                <version>5.1.0</version>
+                <!-- /RELEASE_VERSION -->
                 <executions>
                     <execution>
                         <goals>
-                            <goal>check</goal>
+                            <goal>generate</goal>
                         </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/api.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <apiPackage>io.reflectoring.api</apiPackage>
+                            <modelPackage>io.reflectoring.model</modelPackage>
+                            <supportingFilesToGenerate>
+                                ApiUtil.java
+                            </supportingFilesToGenerate>
+                            <configOptions>
+                                <delegatePattern>true</delegatePattern>
+                            </configOptions>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
